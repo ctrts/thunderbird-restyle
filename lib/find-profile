@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""Print the path of the Thunderbird profile that Thunderbird starts with.
+
+Looks in the XDG location (~/.config/thunderbird), the legacy ~/.thunderbird
+and the Flatpak location. Prefers the install's default profile from
+installs.ini (what Thunderbird actually opens), then the Default=1 profile in
+profiles.ini, then any profile. Exits 1 if no profile exists yet.
+"""
+
+import configparser
+import pathlib
+import sys
+
+HOME = pathlib.Path.home()
+BASES = (
+    HOME / ".config/thunderbird",
+    HOME / ".thunderbird",
+    HOME / ".var/app/org.mozilla.Thunderbird/.thunderbird",
+)
+
+
+def read_ini(path):
+    parser = configparser.ConfigParser(interpolation=None, strict=False)
+    parser.read(path)
+    return {name: dict(parser[name]) for name in parser.sections()}
+
+
+def find_profile():
+    for base in BASES:
+        profiles_ini = base / "profiles.ini"
+        if not profiles_ini.is_file():
+            continue
+        profiles = read_ini(profiles_ini)
+
+        candidates = []
+        installs_ini = base / "installs.ini"
+        if installs_ini.is_file():
+            candidates += [s.get("default") for s in read_ini(installs_ini).values()]
+        candidates += [s.get("default") for name, s in profiles.items() if name.lower().startswith("install")]
+        candidates += [
+            s.get("path")
+            for name, s in profiles.items()
+            if name.lower().startswith("profile") and s.get("default") == "1"
+        ]
+        candidates += [s.get("path") for name, s in profiles.items() if name.lower().startswith("profile")]
+
+        for candidate in candidates:
+            if not candidate:
+                continue
+            path = pathlib.Path(candidate)
+            path = path if path.is_absolute() else base / path
+            if path.is_dir():
+                return path
+    return None
+
+
+if __name__ == "__main__":
+    profile = find_profile()
+    if profile is None:
+        sys.exit(1)
+    print(profile)

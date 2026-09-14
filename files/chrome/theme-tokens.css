@@ -1,0 +1,191 @@
+/* Mailspring Modern: shared tokens (colour palette + icon variables).
+ * Imported by userChrome.css (Thunderbird's windows) and userContent.css
+ * (content tabs such as the Address Book). Only custom properties live
+ * here, so it is safe to apply to every document.
+ */
+
+@media not (prefers-contrast) {
+
+  /* ---------- Palette ---------- */
+
+  :root {
+    --ms-accent: #419bf9 !important;
+    --ms-accent-strong: #3187e1 !important;
+    --ms-accent-text: light-dark(#2276d2, #6ab0fb) !important;
+    --ms-on-accent: #ffffff !important;
+    --ms-bg: light-dark(#ffffff, #212121) !important;
+    --ms-bg-sidebar: light-dark(#f6f6f6, #161616) !important;
+    --ms-bg-raised: light-dark(#efeff1, #2e2e2e) !important;
+    --ms-hover: light-dark(rgba(0, 0, 0, 0.045), rgba(255, 255, 255, 0.06)) !important;
+    --ms-row-hover: color-mix(in srgb, var(--ms-accent) 7%, var(--ms-bg)) !important;
+    --ms-row-selected-unfocused: color-mix(in srgb, var(--ms-accent) 16%, var(--ms-bg)) !important;
+    --ms-border: light-dark(#e8e8e8, #333333) !important;
+    --ms-text: light-dark(#231f20, #eeeeee) !important;
+    --ms-text-subtle: light-dark(#6b6769, #a3a3a3) !important;
+    --ms-radius: 6px !important;
+
+    /* Thunderbird's base tokens, remapped onto the palette */
+    --layout-background-0: var(--ms-bg) !important;
+    --layout-background-1: var(--ms-bg) !important;
+    --layout-background-2: light-dark(#f4f4f5, #2a2a2a) !important;
+    --layout-background-3: light-dark(#ececee, #333333) !important;
+    --layout-background-4: light-dark(#e2e2e5, #3d3d3d) !important;
+    --layout-color-0: var(--ms-text) !important;
+    --layout-color-1: var(--ms-text) !important;
+    --layout-color-2: var(--ms-text-subtle) !important;
+    --layout-color-3: light-dark(#8d8a8b, #7c7c7c) !important;
+    --layout-border-0: var(--ms-border) !important;
+    --layout-border-1: light-dark(#dcdcdc, #3b3b3b) !important;
+    --layout-border-2: light-dark(#c9c9c9, #4a4a4a) !important;
+
+    --selected-item-color: var(--ms-accent-strong) !important;
+    --selected-item-text-color: var(--ms-on-accent) !important;
+    --focus-outline-color: var(--ms-accent) !important;
+    --sidebar-background-color: var(--ms-bg-sidebar) !important;
+    --sidebar-border-color: var(--ms-border) !important;
+    --chrome-content-separator-color: var(--ms-border) !important;
+    --button-border-radius: var(--ms-radius) !important;
+    --listbox-border-radius: var(--ms-radius) !important;
+    --new-folder-color: var(--ms-accent-text) !important;
+    --unread-color: var(--ms-text) !important;
+    --new-subject-color: var(--ms-text) !important;
+    --new-color: var(--ms-accent-text) !important;
+
+    /* Spaces bar and tabs */
+    --spaces-bg-color: var(--ms-bg-sidebar) !important;
+    --spaces-bg-image: none !important;
+    --tabs-toolbar-background-color: var(--ms-bg-sidebar) !important;
+    --tabs-toolbar-box-shadow: none !important;
+
+    /* Folder rows: borderless, soft fills */
+    --list-container-border: transparent !important;
+    --list-container-border-hover: transparent !important;
+    --list-container-border-selected: transparent !important;
+    --list-container-border-selected-current: transparent !important;
+    --list-container-border-selected-focused: transparent !important;
+    --list-container-border-selected-current-focused: transparent !important;
+    --list-container-background-hover: var(--ms-hover) !important;
+    --list-container-background-selected: color-mix(in srgb, var(--ms-text) 7%, transparent) !important;
+    --list-container-background-selected-current: color-mix(in srgb, var(--ms-text) 7%, transparent) !important;
+    --list-container-background-selected-focused: color-mix(in srgb, var(--ms-accent) 16%, transparent) !important;
+    --list-container-background-selected-current-focused: color-mix(in srgb, var(--ms-accent) 18%, transparent) !important;
+
+    /* Message list (table view) */
+    --tree-view-bg: var(--ms-bg) !important;
+    --tree-pane-background: var(--ms-bg) !important;
+    --tree-view-color: var(--ms-text) !important;
+    --listbox-hover: var(--ms-row-hover) !important;
+    --listbox-selected-bg: var(--ms-row-selected-unfocused) !important;
+    --listbox-focused-selected-bg: var(--ms-accent-strong) !important;
+    --listbox-selected-color: var(--ms-on-accent) !important;
+
+    /* Message list (card view): flat rows, no card borders */
+    --tree-card-background: var(--ms-bg) !important;
+    --tree-card-border: transparent !important;
+    --tree-card-border-hover: transparent !important;
+    --tree-card-border-focus: transparent !important;
+    --tree-card-border-selected: transparent !important;
+    --tree-card-border-selected-unfocused: transparent !important;
+    --tree-card-background-current: var(--ms-row-hover) !important;
+    --tree-card-background-selected: var(--ms-accent-strong) !important;
+    --tree-card-background-selected-current: var(--ms-accent-strong) !important;
+    --tree-card-background-current-unfocused: var(--ms-bg) !important;
+    --tree-card-background-selected-unfocused: var(--ms-row-selected-unfocused) !important;
+    --tree-card-background-selected-current-unfocused: var(--ms-row-selected-unfocused) !important;
+    --tree-card-background-selected-current-unfocused-hover: var(--ms-row-selected-unfocused) !important;
+  }
+
+  /* ---------- Icons (Lucide, ISC licence, in icons/lucide/) ---------- */
+
+  /* The SVGs use context-stroke, which needs
+     svg.context-properties.content.enabled (set in user.js). */
+  :root,
+  .spaces-toolbar {
+    --icon-inbox: url("file://@CHROME_DIR@/icons/lucide/inbox.svg") !important;
+    --icon-mail: url("file://@CHROME_DIR@/icons/lucide/mail.svg") !important;
+    --icon-mail-sm: url("file://@CHROME_DIR@/icons/lucide/mail.svg") !important;
+    --icon-mail-lg: url("file://@CHROME_DIR@/icons/lucide/mail.svg") !important;
+    --icon-draft: url("file://@CHROME_DIR@/icons/lucide/file-pen-line.svg") !important;
+    --icon-sent: url("file://@CHROME_DIR@/icons/lucide/send.svg") !important;
+    --icon-trash: url("file://@CHROME_DIR@/icons/lucide/trash-2.svg") !important;
+    --icon-trash-sm: url("file://@CHROME_DIR@/icons/lucide/trash-2.svg") !important;
+    --icon-archive: url("file://@CHROME_DIR@/icons/lucide/archive.svg") !important;
+    --icon-spam: url("file://@CHROME_DIR@/icons/lucide/shield-alert.svg") !important;
+    --icon-spam-sm: url("file://@CHROME_DIR@/icons/lucide/shield-alert.svg") !important;
+    --icon-folder: url("file://@CHROME_DIR@/icons/lucide/folder.svg") !important;
+    --icon-outbox: url("file://@CHROME_DIR@/icons/lucide/folder-output.svg") !important;
+    --icon-template: url("file://@CHROME_DIR@/icons/lucide/file-text.svg") !important;
+    --icon-folder-filter: url("file://@CHROME_DIR@/icons/lucide/folder-search.svg") !important;
+    --icon-newsletter: url("file://@CHROME_DIR@/icons/lucide/newspaper.svg") !important;
+    --icon-rss: url("file://@CHROME_DIR@/icons/lucide/rss.svg") !important;
+    --icon-globe: url("file://@CHROME_DIR@/icons/lucide/globe.svg") !important;
+    --icon-reply: url("file://@CHROME_DIR@/icons/lucide/reply.svg") !important;
+    --icon-reply-all: url("file://@CHROME_DIR@/icons/lucide/reply-all.svg") !important;
+    --icon-forward: url("file://@CHROME_DIR@/icons/lucide/forward.svg") !important;
+    --icon-search: url("file://@CHROME_DIR@/icons/lucide/search.svg") !important;
+    --icon-new-mail: url("file://@CHROME_DIR@/icons/lucide/square-pen.svg") !important;
+    --icon-add: url("file://@CHROME_DIR@/icons/lucide/plus.svg") !important;
+    --icon-add-md: url("file://@CHROME_DIR@/icons/lucide/plus.svg") !important;
+    --icon-star: url("file://@CHROME_DIR@/icons/lucide/star.svg") !important;
+    --icon-star-sm: url("file://@CHROME_DIR@/icons/lucide/star.svg") !important;
+    --icon-settings: url("file://@CHROME_DIR@/icons/lucide/settings.svg") !important;
+    --icon-address-book: url("file://@CHROME_DIR@/icons/lucide/book-user.svg") !important;
+    --icon-address-book-lg: url("file://@CHROME_DIR@/icons/lucide/book-user.svg") !important;
+    --icon-calendar: url("file://@CHROME_DIR@/icons/lucide/calendar.svg") !important;
+    --icon-calendar-lg: url("file://@CHROME_DIR@/icons/lucide/calendar.svg") !important;
+    --icon-tasks: url("file://@CHROME_DIR@/icons/lucide/list-checks.svg") !important;
+    --icon-chat: url("file://@CHROME_DIR@/icons/lucide/message-circle.svg") !important;
+    --icon-chat-lg: url("file://@CHROME_DIR@/icons/lucide/message-circle.svg") !important;
+    --icon-kebab: url("file://@CHROME_DIR@/icons/lucide/ellipsis-vertical.svg") !important;
+    --icon-more: url("file://@CHROME_DIR@/icons/lucide/ellipsis.svg") !important;
+    --icon-more-md: url("file://@CHROME_DIR@/icons/lucide/ellipsis.svg") !important;
+    --icon-cloud-download: url("file://@CHROME_DIR@/icons/lucide/cloud-download.svg") !important;
+    --icon-cloud-download-md: url("file://@CHROME_DIR@/icons/lucide/cloud-download.svg") !important;
+    --icon-download: url("file://@CHROME_DIR@/icons/lucide/download.svg") !important;
+    --icon-download-md: url("file://@CHROME_DIR@/icons/lucide/download.svg") !important;
+    --icon-attachment: url("file://@CHROME_DIR@/icons/lucide/paperclip.svg") !important;
+    --icon-attachment-sm: url("file://@CHROME_DIR@/icons/lucide/paperclip.svg") !important;
+    --icon-tag: url("file://@CHROME_DIR@/icons/lucide/tag.svg") !important;
+    --icon-tag-sm: url("file://@CHROME_DIR@/icons/lucide/tag.svg") !important;
+
+    --spaces-icon-mail: url("file://@CHROME_DIR@/icons/lucide/mail.svg") !important;
+    --spaces-icon-address-book: url("file://@CHROME_DIR@/icons/lucide/book-user.svg") !important;
+    --spaces-icon-calendar: url("file://@CHROME_DIR@/icons/lucide/calendar.svg") !important;
+    --spaces-icon-tasks: url("file://@CHROME_DIR@/icons/lucide/list-checks.svg") !important;
+    --spaces-icon-chat: url("file://@CHROME_DIR@/icons/lucide/message-circle.svg") !important;
+    --spaces-icon-settings: url("file://@CHROME_DIR@/icons/lucide/settings.svg") !important;
+  }
+
+  /* ---------- Icons: calendar, compose toolbar, shared controls ---------- */
+
+  :root {
+    --icon-nav-left: url("file://@CHROME_DIR@/icons/lucide/chevron-left.svg") !important;
+    --icon-nav-right: url("file://@CHROME_DIR@/icons/lucide/chevron-right.svg") !important;
+    --icon-nav-left-sm: url("file://@CHROME_DIR@/icons/lucide/chevron-left.svg") !important;
+    --icon-nav-right-sm: url("file://@CHROME_DIR@/icons/lucide/chevron-right.svg") !important;
+    --icon-nav-down-sm: url("file://@CHROME_DIR@/icons/lucide/chevron-down.svg") !important;
+    --icon-nav-today: url("file://@CHROME_DIR@/icons/lucide/calendar-days.svg") !important;
+    --icon-calendar-today: url("file://@CHROME_DIR@/icons/lucide/calendar-days.svg") !important;
+    /* Thunderbird's calendar tab asks for this misspelled name, which it never defines */
+    --icon-calander: url("file://@CHROME_DIR@/icons/lucide/calendar.svg") !important;
+    --icon-new-event: url("file://@CHROME_DIR@/icons/lucide/calendar-plus.svg") !important;
+    --icon-new-task: url("file://@CHROME_DIR@/icons/lucide/list-todo.svg") !important;
+    --icon-display-options: url("file://@CHROME_DIR@/icons/lucide/sliders-horizontal.svg") !important;
+    --icon-sync: url("file://@CHROME_DIR@/icons/lucide/refresh-cw.svg") !important;
+    --icon-eye: url("file://@CHROME_DIR@/icons/lucide/eye.svg") !important;
+    --icon-hidden: url("file://@CHROME_DIR@/icons/lucide/eye-off.svg") !important;
+    --icon-check: url("file://@CHROME_DIR@/icons/lucide/check.svg") !important;
+    --icon-close: url("file://@CHROME_DIR@/icons/lucide/x.svg") !important;
+    --icon-spelling: url("file://@CHROME_DIR@/icons/lucide/spell-check.svg") !important;
+    --icon-lock: url("file://@CHROME_DIR@/icons/lucide/lock.svg") !important;
+    --icon-lock-disabled: url("file://@CHROME_DIR@/icons/lucide/lock-open.svg") !important;
+    --icon-shield: url("file://@CHROME_DIR@/icons/lucide/shield-check.svg") !important;
+    --icon-ribbon: url("file://@CHROME_DIR@/icons/lucide/signature.svg") !important;
+    --icon-quote: url("file://@CHROME_DIR@/icons/lucide/text-quote.svg") !important;
+    --icon-receipt: url("file://@CHROME_DIR@/icons/lucide/receipt.svg") !important;
+    --icon-cut: url("file://@CHROME_DIR@/icons/lucide/scissors.svg") !important;
+    --icon-copy: url("file://@CHROME_DIR@/icons/lucide/copy.svg") !important;
+    --icon-paste: url("file://@CHROME_DIR@/icons/lucide/clipboard-paste.svg") !important;
+    --icon-print: url("file://@CHROME_DIR@/icons/lucide/printer.svg") !important;
+  }
+}

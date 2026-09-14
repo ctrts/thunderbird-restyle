@@ -1,0 +1,39 @@
+# Trance — modern uplifting / progressive trance
+# Midnight-blue arena dark, azure laser accent, violet uplift.
+
+mode = "dark"
+
+accent = "#38d6ff"
+selection = "#1f3358"
+muted = "#4d5f8c"
+
+background = "#0b0f1e"
+dark_background = "#070a16"
+darker_background = "#04060f"
+lighter_background = "#1a2340"
+
+foreground = "#dbe5ff"
+dark_foreground = "#6e80a8"
+light_foreground = "#b0c1e8"
+bright_foreground = "#ffffff"
+
+hyprland_active_border = "rgba(38d6ffcc) rgba(a97bffcc) 45deg"
+hyprland_inactive_border = "rgba(1a2340aa)"
+active_border_color = "#38d6ff"
+active_tab_background = "#1f3358"
+
+red = "#ff5c7a"
+yellow = "#ffd166"
+orange = "#ff9d5c"
+green = "#4ef0c2"
+cyan = "#38d6ff"
+blue = "#5b8cff"
+magenta = "#a97bff"
+brown = "#7d6b93"
+
+bright_red = "#ff849b"
+bright_yellow = "#ffe29c"
+bright_green = "#86ffdb"
+bright_cyan = "#8ee9ff"
+bright_blue = "#8fb2ff"
+bright_magenta = "#c8a5ff"

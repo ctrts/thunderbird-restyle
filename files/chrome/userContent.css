@@ -1,0 +1,212 @@
+/* Mailspring Modern: content tabs.
+ *
+ * Some Thunderbird tabs (the Address Book, Settings) load as content pages,
+ * which read userContent.css instead of userChrome.css. The shared tokens
+ * (colours, icons) are only custom properties, so they are safe everywhere;
+ * actual rules are scoped with @-moz-document so emails and web pages are
+ * never restyled.
+ */
+
+@import url("omarchy-colors.css");
+@import url("theme-tokens.css");
+
+@-moz-document url("about:addressbook") {
+  @media not (prefers-contrast) {
+
+    :root,
+    :root * {
+      font-family: "Inter Variable", "Inter", "Noto Sans", sans-serif !important;
+    }
+
+    :root,
+    body {
+      background-color: var(--ms-bg) !important;
+      color: var(--ms-text) !important;
+    }
+
+    /* The placeholder avatar reads --recipient-avatar-color, which is only
+       defined in the message header's stylesheet; without it the icon draws
+       black. Links default to Thunderbird's blue. */
+    :root {
+      --recipient-avatar-color: var(--ms-text-subtle) !important;
+      --recipient-avatar-background-color: var(--ms-bg-raised) !important;
+      --link-color: var(--ms-accent-text) !important;
+      --link-color-hover: var(--ms-accent-text) !important;
+      --link-color-active: var(--ms-accent-text) !important;
+      --link-color-visited: var(--ms-accent-text) !important;
+    }
+
+    .contact-photo {
+      background-color: var(--ms-bg-raised) !important;
+      stroke: var(--ms-text-subtle) !important;
+    }
+
+    #booksPane,
+    #booksPaneHeaderBar {
+      background-color: var(--ms-bg-sidebar) !important;
+    }
+
+    #books .container {
+      margin-inline: 8px !important;
+      border-radius: var(--ms-radius) !important;
+    }
+
+    #cardsPane,
+    #detailsPane,
+    #detailsFooter {
+      background-color: var(--ms-bg) !important;
+    }
+
+    #searchInput {
+      --search-bar-background: var(--ms-bg-raised) !important;
+      --search-bar-focus-background: var(--ms-bg) !important;
+      --search-bar-border-color: transparent !important;
+      --button-border-radius: 8px !important;
+    }
+
+    /* Contact list: flat rows with hairline dividers, like the message list */
+    tr[is="ab-card-row"] > td {
+      padding-block: 0 !important;
+      padding-inline: 0 !important;
+
+      & > .card-container {
+        border: none !important;
+        border-block-end: 1px solid var(--ms-border) !important;
+        border-radius: 0 !important;
+        padding-inline: 10px !important;
+      }
+    }
+
+    #cards [is="tree-view-table-body"]:is(:focus, :focus-within) > tr.selected {
+      --in-content-deemphasized-text: color-mix(in srgb, var(--ms-on-accent) 75%, transparent) !important;
+      color: var(--ms-on-accent) !important;
+
+      & > td > .card-container {
+        border-block-end-color: transparent !important;
+      }
+    }
+
+    #books,
+    #cards .tree-view-scrollable-container,
+    .contact-details-scroll {
+      scrollbar-width: thin !important;
+      scrollbar-color: color-mix(in srgb, var(--ms-text) 25%, transparent) transparent !important;
+    }
+  }
+}
+
+@-moz-document url-prefix("about:preferences") {
+  @media not (prefers-contrast) {
+
+    :root,
+    :root * {
+      font-family: "Inter Variable", "Inter", "Noto Sans", sans-serif !important;
+    }
+
+    /* The toolkit design tokens Settings is built from */
+    :root {
+      --background-color-canvas: var(--ms-bg) !important;
+      --background-color-box: var(--ms-bg-raised) !important;
+      --background-color-box-info: var(--ms-bg-raised) !important;
+      --text-color: var(--ms-text) !important;
+      --text-color-deemphasized: var(--ms-text-subtle) !important;
+      --in-content-deemphasized-text: var(--ms-text-subtle) !important;
+      --border-color: var(--ms-border) !important;
+      --button-background-color: var(--ms-bg-raised) !important;
+      --button-background-color-hover: color-mix(in srgb, var(--ms-text) 10%, var(--ms-bg-raised)) !important;
+      --button-background-color-active: color-mix(in srgb, var(--ms-text) 16%, var(--ms-bg-raised)) !important;
+      --button-text-color: var(--ms-text) !important;
+      --button-text-color-hover: var(--ms-text) !important;
+      --button-text-color-active: var(--ms-text) !important;
+      --button-border-color: transparent !important;
+      --button-border-color-hover: transparent !important;
+      --button-border-color-active: transparent !important;
+      --color-accent-primary: var(--ms-accent-strong) !important;
+      --color-accent-primary-hover: color-mix(in srgb, var(--ms-accent-strong) 88%, black) !important;
+      --color-accent-primary-active: color-mix(in srgb, var(--ms-accent-strong) 78%, black) !important;
+      --focus-outline-color: var(--ms-accent) !important;
+      --section-highlight-background-color: color-mix(in srgb, var(--ms-accent) 20%, transparent) !important;
+      --link-color: var(--ms-accent-text) !important;
+      --link-color-hover: var(--ms-accent-text) !important;
+      --link-color-active: var(--ms-accent-text) !important;
+      --link-color-visited: var(--ms-accent-text) !important;
+      accent-color: var(--ms-accent-strong) !important;
+    }
+
+    body,
+    #preferencesContainer,
+    .sticky-container {
+      background-color: var(--ms-bg) !important;
+      color: var(--ms-text) !important;
+    }
+
+    #pref-category-box {
+      background-color: var(--ms-bg-sidebar) !important;
+    }
+
+    /* Category and footer icons are <img src> in the markup, so swap them
+       with content: url(). */
+    #category-general .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/settings.svg") !important; }
+    #category-appearance .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/palette.svg") !important; }
+    #category-compose .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/pen-line.svg") !important; }
+    #category-privacy .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/lock.svg") !important; }
+    #category-chat .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/message-circle.svg") !important; }
+    #category-calendar .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/calendar.svg") !important; }
+    #category-qrexport .category-icon { content: url("file://@CHROME_DIR@/icons/lucide/smartphone.svg") !important; }
+    .sidebar-footer-icon.account-icon { content: url("file://@CHROME_DIR@/icons/lucide/user-round-cog.svg") !important; }
+    .sidebar-footer-link:not(:has(.account-icon)) .sidebar-footer-icon { content: url("file://@CHROME_DIR@/icons/lucide/puzzle.svg") !important; }
+
+    :is(.category-icon, .sidebar-footer-icon) {
+      fill: none !important;
+      stroke: currentColor !important;
+    }
+
+    #categories > .category {
+      border-color: transparent !important;
+      border-radius: var(--ms-radius) !important;
+
+      &[selected] {
+        background-color: color-mix(in srgb, var(--ms-accent) 16%, transparent) !important;
+        color: var(--ms-accent-text) !important;
+      }
+    }
+
+    h1 {
+      font-weight: 650 !important;
+      letter-spacing: -0.01em;
+    }
+
+    legend {
+      font-weight: 650 !important;
+    }
+
+    .subcategory:not([hidden]) ~ .subcategory {
+      border-block-start-color: var(--ms-border) !important;
+    }
+
+    :is(input:is([type="email"], [type="tel"], [type="text"], [type="password"], [type="url"], [type="number"]), textarea) {
+      background-color: var(--ms-bg-raised) !important;
+      color: var(--ms-text) !important;
+      border: 1px solid transparent !important;
+
+      &:focus {
+        border-color: var(--ms-accent) !important;
+      }
+    }
+
+    menulist,
+    button:not(.primary, [default]) {
+      border-color: transparent !important;
+    }
+
+    .info-box-container {
+      border-color: transparent !important;
+      border-radius: var(--ms-radius) !important;
+    }
+
+    #preferencesContainer {
+      scrollbar-width: thin !important;
+      scrollbar-color: color-mix(in srgb, var(--ms-text) 25%, transparent) transparent !important;
+    }
+  }
+}

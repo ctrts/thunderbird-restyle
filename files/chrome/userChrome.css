@@ -1,0 +1,669 @@
+/* Mailspring Modern — a Mailspring-style look for Thunderbird 155
+ *
+ * Colours come from Mailspring's own ui-variables.less (light) and its
+ * ui-dark theme; the theme follows the system light/dark setting.
+ * userChrome.css is a user stylesheet, so every declaration needs
+ * !important to win over Thunderbird's built-in styles.
+ *
+ * Revert: delete this file (or the whole chrome/ folder) and restart
+ * Thunderbird. Everything is disabled under high-contrast mode.
+ */
+
+/* Current Omarchy theme colours, written by the theme-set hook
+   ~/.config/omarchy/hooks/theme-set.d/thunderbird-colors. When the file is
+   missing, the Mailspring palette in theme-tokens.css is used. */
+@import url("omarchy-colors.css");
+@import url("theme-tokens.css");
+
+@media not (prefers-contrast) {
+
+  /* ---------- Toolbar, tabs, spaces ---------- */
+
+  #navigation-toolbox,
+  #titlebar,
+  #unifiedToolbarContainer,
+  unified-toolbar {
+    background-color: var(--ms-bg-sidebar) !important;
+    background-image: none !important;
+    color: var(--ms-text) !important;
+  }
+
+  unified-toolbar {
+    border-block-end: 1px solid var(--ms-border) !important;
+  }
+
+  #unifiedToolbarContent .unified-toolbar-button {
+    border-color: transparent !important;
+    border-radius: var(--ms-radius) !important;
+
+    &:not([disabled]):hover {
+      background-color: var(--ms-hover) !important;
+    }
+  }
+
+  :is(search-bar, global-search-bar) {
+    --search-bar-background: var(--ms-bg-raised) !important;
+    --search-bar-focus-background: var(--ms-bg) !important;
+    --search-bar-border-color: transparent !important;
+    --button-border-radius: 8px !important;
+  }
+
+  #tabs-toolbar {
+    background-image: none !important;
+    background-color: var(--ms-bg-sidebar) !important;
+    box-shadow: none !important;
+    border-block-end: 1px solid var(--ms-border) !important;
+  }
+
+  .tabmail-tab[selected] {
+    background-color: var(--ms-bg) !important;
+    box-shadow: none !important;
+    border-radius: var(--ms-radius) var(--ms-radius) 0 0 !important;
+  }
+
+  .spaces-toolbar-button {
+    border-radius: 8px !important;
+  }
+
+  /* ---------- Folder pane ---------- */
+
+  #folderPane,
+  #folderPaneHeaderBar {
+    background-color: var(--ms-bg-sidebar) !important;
+  }
+
+  #folderPaneWriteMessage {
+    background-color: var(--ms-accent-strong) !important;
+    color: var(--ms-on-accent) !important;
+    fill: transparent !important;
+    stroke: var(--ms-on-accent) !important;
+    border-color: transparent !important;
+    border-radius: var(--ms-radius) !important;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--ms-accent-strong) 88%, black) !important;
+    }
+  }
+
+  #folderTree {
+    & .container {
+      margin-inline: 8px !important;
+      border-radius: var(--ms-radius) !important;
+    }
+
+    /* Monochrome folder icons, like Mailspring (error/busy states keep theirs) */
+    & li:not([data-has-error="true"], [data-is-busy="true"], .tls-error) > .container > .icon {
+      --icon-color: currentColor !important;
+      fill: color-mix(in srgb, currentColor 12%, transparent) !important;
+      stroke: currentColor !important;
+      opacity: 0.7;
+    }
+
+    &:focus-within li.selected > .container {
+      color: var(--ms-accent-text) !important;
+
+      & > .icon {
+        opacity: 1;
+      }
+    }
+
+    /* Section headings ("All Folders" etc.) as small caps labels */
+    & > li > .mode-container {
+      border-block-start: none !important;
+      margin-block-start: 6px;
+
+      & > .mode-name {
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.55;
+        padding-inline-start: 16px !important;
+      }
+    }
+
+    & :is(.unread-count, .total-count) {
+      background-color: color-mix(in srgb, currentColor 9%, transparent) !important;
+      color: var(--ms-text-subtle) !important;
+      border: none !important;
+      border-radius: 10px !important;
+      font-weight: 600 !important;
+      padding: 1px 7px !important;
+    }
+
+    & .new-messages > .container > .unread-count {
+      background-color: var(--ms-accent-strong) !important;
+      color: var(--ms-on-accent) !important;
+    }
+  }
+
+  /* ---------- Message list ---------- */
+
+  #threadPane .list-header-bar {
+    background-color: var(--ms-bg) !important;
+    border-block-end: 1px solid var(--ms-border) !important;
+    padding-block: 6px !important;
+  }
+
+  #threadTree {
+    &[rows="thread-card"] {
+      padding-block: 0 !important;
+    }
+
+    & .card-layout > td {
+      padding-block: 0 !important;
+    }
+
+    & .card-layout:not([data-properties~="thread-children"]) > td {
+      padding-inline: 0 !important;
+    }
+
+    & .card-layout > td > .card-container {
+      border: none !important;
+      border-block-end: 1px solid var(--ms-border) !important;
+      border-radius: 0 !important;
+      padding-inline-start: 10px !important;
+    }
+
+    & .card-container .date {
+      opacity: 0.65 !important;
+      margin-inline-end: 6px;
+    }
+
+    /* Unread: Mailspring's blue dot */
+    & .card-layout[data-properties~="unread"] {
+      --read-status-fill: var(--ms-accent) !important;
+      --read-status-stroke: var(--ms-accent) !important;
+    }
+
+    & tbody:not(:focus, :focus-within) > .card-layout {
+      &:not(.selected):hover {
+        --tree-card-background: var(--ms-row-hover) !important;
+      }
+    }
+
+    /* Focused selection: solid accent row with white text */
+    & tbody:is(:focus, :focus-within) > .card-layout.selected {
+      --tree-card-background: var(--ms-accent-strong) !important;
+      --new-subject-color: currentColor !important;
+      --read-status-fill: var(--ms-on-accent) !important;
+      --read-status-stroke: var(--ms-on-accent) !important;
+      color: var(--ms-on-accent) !important;
+
+      & > td > .card-container {
+        border-block-end-color: transparent !important;
+      }
+    }
+  }
+
+  #folderTree,
+  .tree-view-scrollable-container {
+    scrollbar-width: thin !important;
+    scrollbar-color: light-dark(rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.22)) transparent !important;
+  }
+
+  /* ---------- Reading pane ---------- */
+
+  #messagePane,
+  #messagepanebox {
+    background-color: var(--ms-bg) !important;
+  }
+
+  #messageHeader {
+    background-color: var(--ms-bg) !important;
+    padding: 14px 20px 10px !important;
+    border-block-end: 1px solid var(--ms-border) !important;
+  }
+
+  #expandedsubjectBox {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+  }
+
+  #messageHeader .message-header-view-button {
+    border-radius: var(--ms-radius) !important;
+  }
+
+  #attachmentBar {
+    background-color: var(--ms-bg-sidebar) !important;
+  }
+
+  /* ---------- Font ---------- */
+
+  /* Inter for the interface only (installed in ~/.local/share/fonts/Inter);
+     email bodies keep their own fonts. */
+  :is(#folderPane, #threadPane, #messageHeader, #attachmentBar, unified-toolbar,
+      #tabs-toolbar, .spaces-toolbar, #status-bar, #today-pane-panel, menupopup, panel),
+  :is(#folderPane, #threadPane, #messageHeader, #attachmentBar, unified-toolbar,
+      #tabs-toolbar, .spaces-toolbar, #status-bar, #today-pane-panel, menupopup, panel) * {
+    font-family: "Inter Variable", "Inter", "Noto Sans", sans-serif !important;
+  }
+
+  #threadTree .card-container .date {
+    font-variant-numeric: tabular-nums !important;
+  }
+
+  /* ---------- Reading pane: icon-only actions, quiet notices ---------- */
+
+  #messageHeader .message-header-view-button {
+    border-color: transparent !important;
+    background-color: transparent !important;
+    padding: 5px !important;
+    border-radius: var(--ms-radius) !important;
+
+    & .toolbarbutton-text {
+      display: none !important;
+    }
+
+    & > :is(.toolbarbutton-menubutton-button, .toolbarbutton-menubutton-dropmarker) {
+      border-color: transparent !important;
+      background-color: transparent !important;
+    }
+
+    &:not([disabled]):is(:hover, [open]) {
+      background-color: var(--ms-hover) !important;
+    }
+  }
+
+  notification-message[type="warning"] {
+    --message-bar-background-color: color-mix(in srgb, #f0ad4e 14%, var(--ms-bg)) !important;
+    --message-bar-text-color: var(--ms-text) !important;
+    --button-background-color: var(--ms-bg-raised) !important;
+    --button-background-color-hover: color-mix(in srgb, var(--ms-text) 12%, var(--ms-bg-raised)) !important;
+    --button-background-color-active: color-mix(in srgb, var(--ms-text) 18%, var(--ms-bg-raised)) !important;
+    --button-text-color: var(--ms-text) !important;
+    --button-text-color-hover: var(--ms-text) !important;
+    --button-text-color-active: var(--ms-text) !important;
+    --button-border-color: transparent !important;
+    border-radius: var(--ms-radius) !important;
+  }
+
+  /* Selected calendar event: accent instead of Thunderbird's fixed blue */
+  :is(calendar-month-day-box-item, calendar-event-box, calendar-editable-item)[selected="true"].calendar-color-box {
+    background-color: var(--ms-accent-strong) !important;
+    color: var(--ms-on-accent) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ms-accent) 35%, transparent) !important;
+  }
+
+  /* ---------- Menus ---------- */
+
+  menupopup,
+  panel {
+    --panel-background-color: var(--ms-bg-raised) !important;
+    --panel-text-color: var(--ms-text) !important;
+    --panel-border-color: var(--ms-border) !important;
+  }
+
+  /* ---------- Calendar ---------- */
+
+  :root {
+    --viewBackground: var(--ms-bg) !important;
+    --viewColor: var(--ms-text) !important;
+    --viewBorderColor: var(--ms-border) !important;
+    --viewTimeBoxColor: var(--ms-text-subtle) !important;
+    --viewTodayBackground: color-mix(in srgb, var(--ms-accent) 7%, var(--ms-bg)) !important;
+    --viewTodayOffBackground: color-mix(in srgb, var(--ms-accent) 7%, var(--ms-bg)) !important;
+    --viewTodayWeekendBackground: color-mix(in srgb, var(--ms-accent) 9%, var(--ms-bg)) !important;
+    --viewTodayLabelBackground: var(--ms-accent-strong) !important;
+    --viewTodayLabelColor: var(--ms-on-accent) !important;
+    --viewTodayDayLabelBackground: color-mix(in srgb, var(--ms-accent) 18%, transparent) !important;
+    --viewWeekendBackground: color-mix(in srgb, var(--ms-text) 3%, var(--ms-bg)) !important;
+    --viewOffTimeBackground: color-mix(in srgb, var(--ms-text) 3%, var(--ms-bg)) !important;
+    --viewMonthDayOffLabelBackground: color-mix(in srgb, var(--ms-text) 3%, var(--ms-bg)) !important;
+    --viewMonthOtherBackground: color-mix(in srgb, var(--ms-text) 2%, var(--ms-bg)) !important;
+    --viewMonthDayOtherBackground: color-mix(in srgb, var(--ms-text) 2%, var(--ms-bg)) !important;
+    --viewMonthWeekLabelBackground: color-mix(in srgb, var(--ms-text) 8%, transparent) !important;
+    --viewHighlightBorderColor: var(--ms-accent) !important;
+    --viewDragboxBackground: color-mix(in srgb, var(--ms-accent) 35%, transparent) !important;
+    --viewDropshadowBackground: color-mix(in srgb, var(--ms-accent) 35%, transparent) !important;
+    --viewDayLabelSelectedBackground: var(--ms-accent-strong) !important;
+
+    --calendar-view-toggle-background: var(--ms-bg-raised) !important;
+    --calendar-view-toggle-hover-background: color-mix(in srgb, var(--ms-text) 8%, var(--ms-bg-raised)) !important;
+    --calendar-view-toggle-active-background: color-mix(in srgb, var(--ms-text) 14%, var(--ms-bg-raised)) !important;
+    --calendar-view-toggle-selected-background: var(--ms-accent-strong) !important;
+    --calendar-view-toggle-selected-hover-background: var(--ms-accent-strong) !important;
+    --calendar-view-toggle-border-color: transparent !important;
+    --calendar-view-toggle-shadow-color: transparent !important;
+  }
+
+  #viewToggle {
+    border-radius: 8px !important;
+  }
+
+  .calview-toggle-item {
+    border-radius: var(--ms-radius) !important;
+
+    &[aria-selected="true"] {
+      color: var(--ms-on-accent) !important;
+    }
+  }
+
+  #intervalDescription {
+    font-size: 1.35rem !important;
+    font-weight: 600 !important;
+  }
+
+  :is(#previousViewButton, #todayViewButton, #nextViewButton) {
+    background-color: var(--ms-bg-raised) !important;
+    border-color: transparent !important;
+    border-radius: var(--ms-radius) !important;
+  }
+
+  calendar-minimonth {
+    --mmMainBackground: transparent !important;
+    --mmMainBorderColor: transparent !important;
+    --mmBoxBackground: transparent !important;
+    --mmBoxBorderColor: transparent !important;
+    --mmDayColor: var(--ms-text) !important;
+    --mmDayOtherColor: color-mix(in srgb, var(--ms-text) 40%, transparent) !important;
+    --mmDayWeekColor: var(--ms-text-subtle) !important;
+    --mmDayTodayBackground: var(--ms-accent-strong) !important;
+    --mmDayTodayColor: var(--ms-on-accent) !important;
+    --mmDaySelectedColor: var(--ms-accent-text) !important;
+    --mmDaySelectedBackground: color-mix(in srgb, var(--ms-accent) 22%, transparent) !important;
+    --mmDaySelectedTodayBackground: var(--ms-accent-strong) !important;
+    --mmDayBusyColor: var(--ms-accent) !important;
+    --mmDayBorderRadius: var(--ms-radius) !important;
+  }
+
+  /* Event search bar and the old XUL <tree> lists (event search results,
+     tasks). These don't use the modern tree-view, so style them directly. */
+  #unifinder-searchBox {
+    background-color: var(--ms-bg) !important;
+    background-image: none !important;
+    border-block-end: 1px solid var(--ms-border) !important;
+    padding: 6px 10px !important;
+    gap: 8px !important;
+  }
+
+  :is(#unifinder-search-field, #unifinder-task-edit-field) {
+    background-color: var(--ms-bg-raised) !important;
+    color: var(--ms-text) !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    padding-block: 5px !important;
+    padding-inline: 10px !important;
+
+    &:focus {
+      border-color: var(--ms-accent) !important;
+      outline: none !important;
+    }
+  }
+
+  #event-filter-menulist {
+    appearance: none !important;
+    background-color: var(--ms-bg-raised) !important;
+    color: var(--ms-text) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding-inline: 8px !important;
+  }
+
+  :is(#calendarTabPanel, #todo-tab-panel, #today-pane-panel) tree,
+  #unifinder-search-results-tree {
+    appearance: none !important;
+    background-color: var(--ms-bg) !important;
+    color: var(--ms-text) !important;
+    border: none !important;
+
+    & > treecols {
+      appearance: none !important;
+      background-color: var(--ms-bg) !important;
+      border: none !important;
+      border-block-end: 1px solid var(--ms-border) !important;
+    }
+
+    & :is(treecol, treecolpicker) {
+      appearance: none !important;
+      background-color: transparent !important;
+      background-image: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: var(--ms-text-subtle) !important;
+      padding-block: 7px !important;
+      padding-inline: 10px !important;
+      font-size: 0.75rem !important;
+      font-weight: 600 !important;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+
+      &:hover {
+        background-color: var(--ms-hover) !important;
+        color: var(--ms-text) !important;
+      }
+    }
+
+    & splitter.tree-splitter,
+    & treecolpicker > * {
+      appearance: none !important;
+      background-color: transparent !important;
+      border: none !important;
+    }
+
+    & > treechildren {
+      background-color: var(--ms-bg) !important;
+
+      &::-moz-tree-row {
+        height: 32px !important;
+        background-color: transparent !important;
+        border: none !important;
+      }
+
+      &::-moz-tree-row(hover) {
+        background-color: var(--ms-row-hover) !important;
+      }
+
+      &::-moz-tree-row(selected) {
+        background-color: var(--ms-row-selected-unfocused) !important;
+      }
+
+      &::-moz-tree-row(selected, focus) {
+        background-color: var(--ms-accent-strong) !important;
+      }
+
+      &::-moz-tree-cell-text {
+        color: var(--ms-text) !important;
+        padding-inline: 6px !important;
+      }
+
+      &::-moz-tree-cell-text(selected, focus) {
+        color: var(--ms-on-accent) !important;
+      }
+    }
+  }
+
+  #bottom-events-box {
+    background-color: var(--ms-bg) !important;
+  }
+
+  /* Pane splitters in the calendar: hairlines instead of grey bars */
+  #calendarTabPanel splitter:not(.tree-splitter) {
+    appearance: none !important;
+    background-color: var(--ms-border) !important;
+    background-image: none !important;
+    border: none !important;
+    min-width: 1px !important;
+    min-height: 1px !important;
+  }
+
+  /* Today when it's also the selected day: Thunderbird takes the text colour
+     from the selected state, which would be accent on accent. */
+  .minimonth-day[selected="true"][today="true"] {
+    color: var(--ms-on-accent) !important;
+  }
+
+  #calendar-list > li {
+    border-radius: var(--ms-radius) !important;
+
+    & .calendar-color {
+      border-radius: 50% !important;
+    }
+  }
+
+  .calendar-color-box {
+    border-radius: 5px !important;
+  }
+
+  #mini-day-image {
+    background-color: transparent !important;
+  }
+
+  .agenda-date-header {
+    background-color: transparent !important;
+    color: var(--ms-text-subtle) !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---------- Compose window ---------- */
+
+  #msgcomposeWindow {
+    & #compose-toolbox > toolbar {
+      background-color: var(--ms-bg-sidebar) !important;
+      border-color: var(--ms-border) !important;
+    }
+
+    & #composeToolbar2 .toolbarbutton-1 {
+      border-color: transparent !important;
+      border-radius: var(--ms-radius) !important;
+
+      &:not([disabled]):hover {
+        background-color: var(--ms-hover) !important;
+      }
+    }
+
+    & #button-send {
+      background-color: var(--ms-accent-strong) !important;
+      color: var(--ms-on-accent) !important;
+
+      &:not([disabled]):hover {
+        background-color: color-mix(in srgb, var(--ms-accent-strong) 88%, black) !important;
+      }
+    }
+
+    & #composeContentBox,
+    & #messageArea {
+      background-color: var(--ms-bg) !important;
+      box-shadow: none !important;
+    }
+
+    & :is(#MsgHeadersToolbar, #FormatToolbox) {
+      background-color: var(--ms-bg) !important;
+      color: var(--ms-text) !important;
+      border-block-end: 1px solid var(--ms-border) !important;
+    }
+
+    & :is(.address-container, #msgSubject) {
+      background-color: var(--ms-bg-raised) !important;
+      border-color: transparent !important;
+      border-radius: var(--ms-radius) !important;
+    }
+
+    & .address-pill {
+      border-radius: 999px !important;
+      box-shadow: none !important;
+
+      &:not(.invalid-address, .key-issue, [selected]) {
+        background-color: color-mix(in srgb, var(--ms-accent) 16%, transparent) !important;
+        color: var(--ms-text) !important;
+      }
+
+      &[selected] {
+        background-color: var(--ms-accent-strong) !important;
+        color: var(--ms-on-accent) !important;
+      }
+    }
+
+    & .formatting-button {
+      border-color: transparent !important;
+      border-radius: var(--ms-radius) !important;
+
+      &:not([disabled]):hover {
+        background-color: var(--ms-hover) !important;
+      }
+
+      &:is([checked="true"], [open="true"]) {
+        background-color: color-mix(in srgb, var(--ms-accent) 18%, transparent) !important;
+      }
+    }
+
+    & #attachmentArea,
+    & #contactsSidebar .sidebar-header,
+    & #contactsBrowser {
+      background-color: var(--ms-bg-sidebar) !important;
+      background-image: none !important;
+      border-color: var(--ms-border) !important;
+    }
+  }
+
+  /* Formatting toolbar: these buttons use fixed icon files, so swap each one.
+     Lucide icons are stroke-based, hence the extra context properties. */
+  #msgcomposeWindow :is(#AbsoluteFontSizeButton, #DecreaseFontSizeButton, #IncreaseFontSizeButton,
+      #boldButton, #italicButton, #underlineButton, #removeStylingButton, #ulButton, #olButton,
+      #outdentButton, #indentButton, #InsertPopupButton, #smileButtonMenu, #AlignPopupButton),
+  #AlignPopup > menuitem {
+    -moz-context-properties: fill, stroke !important;
+    fill: none !important;
+    stroke: currentColor !important;
+  }
+
+  #AbsoluteFontSizeButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/type.svg") !important; }
+  #DecreaseFontSizeButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/a-arrow-down.svg") !important; }
+  #IncreaseFontSizeButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/a-arrow-up.svg") !important; }
+  #boldButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/bold.svg") !important; }
+  #italicButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/italic.svg") !important; }
+  #underlineButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/underline.svg") !important; }
+  #removeStylingButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/remove-formatting.svg") !important; }
+  #ulButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/list.svg") !important; }
+  #olButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/list-ordered.svg") !important; }
+  #outdentButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/indent-decrease.svg") !important; }
+  #indentButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/indent-increase.svg") !important; }
+  #InsertPopupButton { list-style-image: url("file://@CHROME_DIR@/icons/lucide/image.svg") !important; }
+  #smileButtonMenu { list-style-image: url("file://@CHROME_DIR@/icons/lucide/smile.svg") !important; }
+
+  #AlignPopupButton,
+  #AlignPopupButton[state="left"] { list-style-image: url("file://@CHROME_DIR@/icons/lucide/align-left.svg") !important; }
+  #AlignPopupButton[state="center"] { list-style-image: url("file://@CHROME_DIR@/icons/lucide/align-center.svg") !important; }
+  #AlignPopupButton[state="right"] { list-style-image: url("file://@CHROME_DIR@/icons/lucide/align-right.svg") !important; }
+  #AlignPopupButton[state="justify"] { list-style-image: url("file://@CHROME_DIR@/icons/lucide/align-justify.svg") !important; }
+
+  #AlignLeftItem { --menuitem-icon: url("file://@CHROME_DIR@/icons/lucide/align-left.svg") !important; }
+  #AlignCenterItem { --menuitem-icon: url("file://@CHROME_DIR@/icons/lucide/align-center.svg") !important; }
+  #AlignRightItem { --menuitem-icon: url("file://@CHROME_DIR@/icons/lucide/align-right.svg") !important; }
+  #AlignJustifyItem { --menuitem-icon: url("file://@CHROME_DIR@/icons/lucide/align-justify.svg") !important; }
+
+  /* Inter for the calendar and compose chrome too (never the email body) */
+  :is(#calendarTabPanel, #compose-toolbox, #MsgHeadersToolbar, #FormatToolbox,
+      #attachmentArea, #contactsSidebar),
+  :is(#calendarTabPanel, #compose-toolbox, #MsgHeadersToolbar, #FormatToolbox,
+      #attachmentArea, #contactsSidebar) * {
+    font-family: "Inter Variable", "Inter", "Noto Sans", sans-serif !important;
+  }
+
+  /* ---------- Tooltips ---------- */
+
+  /* Most button tooltips are Thunderbird's built-in default tooltip, which
+     only takes UA styles; user.js sets its colours (ui.infobackground /
+     ui.infotext / ui.tooltipRadius). This rule styles the real <tooltip>
+     elements (attachments, chat) to match. */
+  tooltip {
+    appearance: none !important;
+    background-color: #3c3c41 !important;
+    color: #f4f4f5 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--ms-radius) !important;
+    padding: 4px 9px !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+    max-width: 32em !important;
+
+    & .tooltip-label {
+      margin: 0 !important;
+    }
+  }
+}
