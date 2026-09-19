@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# Remove the Mailspring Modern theme. Pass --all to also remove the Inter font
+# Remove the Thunderbird Restyle theme. Pass --all to also remove the Inter font
 # and the Send Later add-on. See README.md.
 set -euo pipefail
 
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 FILES="$REPO/files"
-MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
-MARK_END="// <<< mailspring-modern"
+MARK_BEGIN="// >>> thunderbird-restyle (managed by install.sh)"
+MARK_END="// <<< thunderbird-restyle"
+# The markers this repo used before it was renamed, so an older install is
+# recognised and replaced instead of being left behind as a duplicate block.
+OLD_MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
+OLD_MARK_END="// <<< mailspring-modern"
 STAMP=$(date +%Y%m%d-%H%M%S)
 ALL=0
 [[ ${1:-} == --all ]] && ALL=1
@@ -27,10 +31,10 @@ if PROFILE=$("$REPO/lib/find-profile"); then
 
   USERJS="$PROFILE/user.js"
   if [[ -f $USERJS ]]; then
-    rest=$(awk -v b="$MARK_BEGIN" -v e="$MARK_END" '
+    rest=$(awk -v b="$MARK_BEGIN" -v e="$MARK_END" -v ob="$OLD_MARK_BEGIN" -v oe="$OLD_MARK_END" '
       NR == FNR { theme[$0] = 1; next }
-      $0 == b { skip = 1; next }
-      $0 == e { skip = 0; next }
+      $0 == b || $0 == ob { skip = 1; next }
+      $0 == e || $0 == oe { skip = 0; next }
       !skip && !($0 in theme && $0 != "")' "$FILES/user.js" "$USERJS")
     if [[ -n ${rest//[$'\n\t ']/} ]]; then
       printf '%s\n' "$rest" >"$USERJS"

@@ -1,4 +1,4 @@
-// Load chrome/userChrome.css (Mailspring Modern theme)
+// Load chrome/userChrome.css (Thunderbird Restyle theme)
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
 // Tooltips on buttons are Thunderbird's built-in default tooltip, which

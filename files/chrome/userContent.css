@@ -1,4 +1,4 @@
-/* Mailspring Modern: content tabs.
+/* Thunderbird Restyle: content tabs (floating panes, same as about:3pane).
  *
  * Some Thunderbird tabs (the Address Book, Settings) load as content pages,
  * which read userContent.css instead of userChrome.css. The shared tokens
@@ -20,77 +20,100 @@
 
     :root,
     body {
-      background-color: var(--ms-bg) !important;
-      color: var(--ms-text) !important;
+      background-color: var(--tr-bg) !important;
+      color: var(--tr-text) !important;
     }
 
     /* The placeholder avatar reads --recipient-avatar-color, which is only
        defined in the message header's stylesheet; without it the icon draws
        black. Links default to Thunderbird's blue. */
     :root {
-      --recipient-avatar-color: var(--ms-text-subtle) !important;
-      --recipient-avatar-background-color: var(--ms-bg-raised) !important;
-      --link-color: var(--ms-accent-text) !important;
-      --link-color-hover: var(--ms-accent-text) !important;
-      --link-color-active: var(--ms-accent-text) !important;
-      --link-color-visited: var(--ms-accent-text) !important;
+      --recipient-avatar-color: var(--tr-text-subtle) !important;
+      --recipient-avatar-background-color: var(--tr-bg-raised) !important;
+      --link-color: var(--tr-accent-text) !important;
+      --link-color-hover: var(--tr-accent-text) !important;
+      --link-color-active: var(--tr-accent-text) !important;
+      --link-color-visited: var(--tr-accent-text) !important;
     }
 
     .contact-photo {
-      background-color: var(--ms-bg-raised) !important;
-      stroke: var(--ms-text-subtle) !important;
+      background-color: var(--tr-bg-raised) !important;
+      stroke: var(--tr-text-subtle) !important;
+    }
+
+    /* Same grid-plus-splitters layout as about:3pane, so the same floating
+       treatment applies: recessed body, rounded surfaces, draggable gaps. */
+    body {
+      box-sizing: border-box !important;
+      background-color: var(--tr-bg-deep) !important;
+      padding: var(--tr-gap) !important;
+    }
+
+    body > :is(#booksPane, #cardsPane, #detailsPane) {
+      border-radius: var(--tr-radius-pane) !important;
+      box-shadow: var(--tr-shadow-pane) !important;
+      overflow: hidden !important;
+    }
+
+    hr[is="pane-splitter"] {
+      --splitter-occupy-size: var(--tr-gap) !important;
+      --splitter-content-size: var(--tr-gap) !important;
+      border-color: transparent !important;
+      background-color: transparent !important;
+    }
+
+    hr[is="pane-splitter"].splitter-collapsed {
+      --splitter-occupy-size: 0px !important;
     }
 
     #booksPane,
     #booksPaneHeaderBar {
-      background-color: var(--ms-bg-sidebar) !important;
+      background-color: var(--tr-surface) !important;
+    }
+
+    #booksPaneHeaderBar {
+      padding: 8px 8px 4px !important;
     }
 
     #books .container {
-      margin-inline: 8px !important;
-      border-radius: var(--ms-radius) !important;
+      margin-inline: 6px !important;
+      border-radius: var(--tr-radius) !important;
     }
 
     #cardsPane,
     #detailsPane,
     #detailsFooter {
-      background-color: var(--ms-bg) !important;
+      background-color: var(--tr-surface) !important;
     }
 
     #searchInput {
-      --search-bar-background: var(--ms-bg-raised) !important;
-      --search-bar-focus-background: var(--ms-bg) !important;
+      --search-bar-background: var(--tr-bg-raised) !important;
+      --search-bar-focus-background: var(--tr-bg) !important;
       --search-bar-border-color: transparent !important;
-      --button-border-radius: 8px !important;
+      --button-border-radius: var(--tr-radius-pill) !important;
     }
 
-    /* Contact list: flat rows with hairline dividers, like the message list */
+    /* Contact list: inset pill rows, like the message list */
     tr[is="ab-card-row"] > td {
-      padding-block: 0 !important;
-      padding-inline: 0 !important;
+      padding: 1px 6px !important;
 
       & > .card-container {
         border: none !important;
-        border-block-end: 1px solid var(--ms-border) !important;
-        border-radius: 0 !important;
+        border-radius: var(--tr-radius) !important;
         padding-inline: 10px !important;
       }
     }
 
     #cards [is="tree-view-table-body"]:is(:focus, :focus-within) > tr.selected {
-      --in-content-deemphasized-text: color-mix(in srgb, var(--ms-on-accent) 75%, transparent) !important;
-      color: var(--ms-on-accent) !important;
-
-      & > td > .card-container {
-        border-block-end-color: transparent !important;
-      }
+      --in-content-deemphasized-text: color-mix(in srgb, var(--tr-on-accent) 75%, transparent) !important;
+      color: var(--tr-on-accent) !important;
     }
 
     #books,
     #cards .tree-view-scrollable-container,
     .contact-details-scroll {
       scrollbar-width: thin !important;
-      scrollbar-color: color-mix(in srgb, var(--ms-text) 25%, transparent) transparent !important;
+      scrollbar-color: color-mix(in srgb, var(--tr-text) 25%, transparent) transparent !important;
     }
   }
 }
@@ -105,43 +128,57 @@
 
     /* The toolkit design tokens Settings is built from */
     :root {
-      --background-color-canvas: var(--ms-bg) !important;
-      --background-color-box: var(--ms-bg-raised) !important;
-      --background-color-box-info: var(--ms-bg-raised) !important;
-      --text-color: var(--ms-text) !important;
-      --text-color-deemphasized: var(--ms-text-subtle) !important;
-      --in-content-deemphasized-text: var(--ms-text-subtle) !important;
-      --border-color: var(--ms-border) !important;
-      --button-background-color: var(--ms-bg-raised) !important;
-      --button-background-color-hover: color-mix(in srgb, var(--ms-text) 10%, var(--ms-bg-raised)) !important;
-      --button-background-color-active: color-mix(in srgb, var(--ms-text) 16%, var(--ms-bg-raised)) !important;
-      --button-text-color: var(--ms-text) !important;
-      --button-text-color-hover: var(--ms-text) !important;
-      --button-text-color-active: var(--ms-text) !important;
+      --background-color-canvas: var(--tr-bg-deep) !important;
+      --background-color-box: var(--tr-surface) !important;
+      --background-color-box-info: var(--tr-surface) !important;
+      --border-radius-small: var(--tr-radius-sm) !important;
+      --border-radius-medium: var(--tr-radius) !important;
+      --border-radius-large: var(--tr-radius-lg) !important;
+      --text-color: var(--tr-text) !important;
+      --text-color-deemphasized: var(--tr-text-subtle) !important;
+      --in-content-deemphasized-text: var(--tr-text-subtle) !important;
+      --border-color: var(--tr-border) !important;
+      --button-background-color: var(--tr-bg-raised) !important;
+      --button-background-color-hover: color-mix(in srgb, var(--tr-text) 10%, var(--tr-bg-raised)) !important;
+      --button-background-color-active: color-mix(in srgb, var(--tr-text) 16%, var(--tr-bg-raised)) !important;
+      --button-text-color: var(--tr-text) !important;
+      --button-text-color-hover: var(--tr-text) !important;
+      --button-text-color-active: var(--tr-text) !important;
       --button-border-color: transparent !important;
       --button-border-color-hover: transparent !important;
       --button-border-color-active: transparent !important;
-      --color-accent-primary: var(--ms-accent-strong) !important;
-      --color-accent-primary-hover: color-mix(in srgb, var(--ms-accent-strong) 88%, black) !important;
-      --color-accent-primary-active: color-mix(in srgb, var(--ms-accent-strong) 78%, black) !important;
-      --focus-outline-color: var(--ms-accent) !important;
-      --section-highlight-background-color: color-mix(in srgb, var(--ms-accent) 20%, transparent) !important;
-      --link-color: var(--ms-accent-text) !important;
-      --link-color-hover: var(--ms-accent-text) !important;
-      --link-color-active: var(--ms-accent-text) !important;
-      --link-color-visited: var(--ms-accent-text) !important;
-      accent-color: var(--ms-accent-strong) !important;
+      --color-accent-primary: var(--tr-accent-strong) !important;
+      --color-accent-primary-hover: color-mix(in srgb, var(--tr-accent-strong) 88%, black) !important;
+      --color-accent-primary-active: color-mix(in srgb, var(--tr-accent-strong) 78%, black) !important;
+      --focus-outline-color: var(--tr-accent) !important;
+      --section-highlight-background-color: color-mix(in srgb, var(--tr-accent) 20%, transparent) !important;
+      --link-color: var(--tr-accent-text) !important;
+      --link-color-hover: var(--tr-accent-text) !important;
+      --link-color-active: var(--tr-accent-text) !important;
+      --link-color-visited: var(--tr-accent-text) !important;
+      accent-color: var(--tr-accent-strong) !important;
     }
 
+    /* Settings is one scrolling column, so it stays a plain surface rather
+       than a floating card: a margin would break its sticky headers. The
+       sticky search header has to match the page it scrolls over, or it
+       reads as a stray band across the top. */
     body,
     #preferencesContainer,
     .sticky-container {
-      background-color: var(--ms-bg) !important;
-      color: var(--ms-text) !important;
+      background-color: var(--tr-surface) !important;
+      color: var(--tr-text) !important;
     }
 
+    /* Only the category list is recessed, the way the window chrome is. */
     #pref-category-box {
-      background-color: var(--ms-bg-sidebar) !important;
+      background-color: var(--tr-bg-deep) !important;
+      padding-inline: 6px !important;
+    }
+
+    /* Match the pill search field in the main window. */
+    #searchInput {
+      border-radius: var(--tr-radius-pill) !important;
     }
 
     /* Category and footer icons are <img src> in the markup, so swap them
@@ -163,17 +200,18 @@
 
     #categories > .category {
       border-color: transparent !important;
-      border-radius: var(--ms-radius) !important;
+      border-radius: var(--tr-radius) !important;
+      margin-block: 1px !important;
 
       &[selected] {
-        background-color: color-mix(in srgb, var(--ms-accent) 16%, transparent) !important;
-        color: var(--ms-accent-text) !important;
+        background-color: color-mix(in srgb, var(--tr-accent) 16%, transparent) !important;
+        color: var(--tr-accent-text) !important;
       }
     }
 
     h1 {
       font-weight: 650 !important;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.018em;
     }
 
     legend {
@@ -181,16 +219,16 @@
     }
 
     .subcategory:not([hidden]) ~ .subcategory {
-      border-block-start-color: var(--ms-border) !important;
+      border-block-start-color: var(--tr-border) !important;
     }
 
     :is(input:is([type="email"], [type="tel"], [type="text"], [type="password"], [type="url"], [type="number"]), textarea) {
-      background-color: var(--ms-bg-raised) !important;
-      color: var(--ms-text) !important;
+      background-color: var(--tr-bg-raised) !important;
+      color: var(--tr-text) !important;
       border: 1px solid transparent !important;
 
       &:focus {
-        border-color: var(--ms-accent) !important;
+        border-color: var(--tr-accent) !important;
       }
     }
 
@@ -201,12 +239,16 @@
 
     .info-box-container {
       border-color: transparent !important;
-      border-radius: var(--ms-radius) !important;
+      border-radius: var(--tr-radius) !important;
+    }
+
+    :is(input:is([type="email"], [type="tel"], [type="text"], [type="password"], [type="url"], [type="number"]), textarea, menulist, button, .search-container input) {
+      border-radius: var(--tr-radius) !important;
     }
 
     #preferencesContainer {
       scrollbar-width: thin !important;
-      scrollbar-color: color-mix(in srgb, var(--ms-text) 25%, transparent) transparent !important;
+      scrollbar-color: color-mix(in srgb, var(--tr-text) 25%, transparent) transparent !important;
     }
   }
 }

@@ -5,8 +5,12 @@ set -euo pipefail
 
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 FILES="$REPO/files"
-MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
-MARK_END="// <<< mailspring-modern"
+MARK_BEGIN="// >>> thunderbird-restyle (managed by install.sh)"
+MARK_END="// <<< thunderbird-restyle"
+# The markers this repo used before it was renamed, so an older install is
+# recognised and replaced instead of being left behind as a duplicate block.
+OLD_MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
+OLD_MARK_END="// <<< mailspring-modern"
 
 if ! PROFILE=$("$REPO/lib/find-profile"); then
   echo "No Thunderbird profile found." >&2
@@ -28,8 +32,8 @@ cp -r "$CHROME/icons/lucide" "$FILES/chrome/icons/lucide"
 
 # user.js: the managed block if install.sh wrote one, otherwise the whole file.
 USERJS="$PROFILE/user.js"
-if grep -qxF "$MARK_BEGIN" "$USERJS"; then
-  awk -v b="$MARK_BEGIN" -v e="$MARK_END" '$0 == b { keep = 1; next } $0 == e { keep = 0 } keep' "$USERJS" >"$FILES/user.js"
+if grep -qxF "$MARK_BEGIN" "$USERJS" || grep -qxF "$OLD_MARK_BEGIN" "$USERJS"; then
+  awk -v b="$MARK_BEGIN" -v e="$MARK_END" -v ob="$OLD_MARK_BEGIN" -v oe="$OLD_MARK_END" '$0 == b { keep = 1; next } $0 == e { keep = 0 } keep' "$USERJS" >"$FILES/user.js"
 else
   cp "$USERJS" "$FILES/user.js"
 fi

@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
-# Apply the Mailspring Modern theme to this machine's Thunderbird profile.
+# Apply the Thunderbird Restyle theme to this machine's Thunderbird profile.
 # Safe to re-run. See README.md.
 set -euo pipefail
 
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 FILES="$REPO/files"
-MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
-MARK_END="// <<< mailspring-modern"
+MARK_BEGIN="// >>> thunderbird-restyle (managed by install.sh)"
+MARK_END="// <<< thunderbird-restyle"
+# The markers this repo used before it was renamed, so an older install is
+# recognised and replaced instead of being left behind as a duplicate block.
+OLD_MARK_BEGIN="// >>> mailspring-modern (managed by install.sh)"
+OLD_MARK_END="// <<< mailspring-modern"
 STAMP=$(date +%Y%m%d-%H%M%S)
 
 if pgrep -x thunderbird >/dev/null || pgrep -x thunderbird-bin >/dev/null; then
@@ -27,7 +31,7 @@ echo "Profile: $PROFILE"
 mkdir -p "$CHROME/icons"
 for css in "$FILES"/chrome/*.css; do
   target="$CHROME/$(basename "$css")"
-  if [[ -f $target ]] && ! grep -q "Mailspring Modern" "$target"; then
+  if [[ -f $target ]] && ! grep -qE "Thunderbird Restyle|Mailspring Modern" "$target"; then
     cp -p "$target" "$target.bak-$STAMP"
   fi
   sed "s|@CHROME_DIR@|$CHROME|g" "$css" >"$target"
@@ -38,14 +42,16 @@ echo "Installed stylesheets and $(ls "$CHROME/icons/lucide" | wc -l) icons"
 
 # 2. Preferences go in a marked block of user.js so other lines survive.
 #    Lines identical to the theme's are dropped from the rest (covers copies
-#    made before the markers existed).
+#    made before the markers existed), as is the theme's own header comment
+#    under any of its past names.
 USERJS="$PROFILE/user.js"
 rest=""
 if [[ -f $USERJS ]]; then
-  rest=$(awk -v b="$MARK_BEGIN" -v e="$MARK_END" '
+  rest=$(awk -v b="$MARK_BEGIN" -v e="$MARK_END" -v ob="$OLD_MARK_BEGIN" -v oe="$OLD_MARK_END" '
     NR == FNR { theme[$0] = 1; next }
-    $0 == b { skip = 1; next }
-    $0 == e { skip = 0; next }
+    $0 == b || $0 == ob { skip = 1; next }
+    $0 == e || $0 == oe { skip = 0; next }
+    /^\/\/ Load chrome\/userChrome\.css \(.* theme\)$/ { next }
     !skip && !($0 in theme && $0 != "")' "$FILES/user.js" "$USERJS")
 fi
 {
@@ -106,7 +112,7 @@ if command -v omarchy >/dev/null; then
   "$HOME/.config/omarchy/hooks/theme-set.d/thunderbird-colors" "$(omarchy theme current 2>/dev/null || echo current)"
   echo "Installed Omarchy theme hook (colours follow your Omarchy theme)"
 else
-  echo "Omarchy not found: skipped the theme hook (Thunderbird uses the built-in Mailspring palette)"
+  echo "Omarchy not found: skipped the theme hook (Thunderbird uses the built-in palette)"
 fi
 
 echo
