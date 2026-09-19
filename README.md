@@ -18,7 +18,8 @@ colours that follow the current Omarchy theme.
 | `files/user.js` | a marked block in `<profile>/user.js` |
 | `files/fonts/Inter/` | `~/.local/share/fonts/Inter/` |
 | `files/extensions/` | `<profile>/extensions/` (Send Later add-on) |
-| `files/omarchy/thunderbird-colors` | `~/.config/omarchy/hooks/theme-set.d/` |
+| `files/omarchy/thunderbird-colors` | `~/.config/omarchy/hooks/theme-set.d/` (bash stub) |
+| `files/omarchy/thunderbird-colors.py` | `~/.config/omarchy/hooks/` (the recolour script the stub runs) |
 | `files/omarchy/themes/trance/` | `~/.config/omarchy/themes/trance/` (only if missing, then applied) |
 
 `<profile>` is found automatically: the profile Thunderbird actually starts
@@ -34,7 +35,10 @@ Flatpak location.
 - `userContent.css` — the tabs that load as content pages (Address Book,
   Settings), scoped with `@-moz-document` so emails are never restyled.
 - `omarchy-colors.css` — generated in the profile by the theme-set hook; it
-  overrides the palette tokens with the current Omarchy theme's colours.
+  overrides the palette tokens with the current Omarchy theme's colours. The
+  hook is split in two on purpose: `omarchy-hook` runs everything in
+  `hooks/theme-set.d/` as `bash "$hook"`, ignoring shebangs, so the entry there
+  is a bash stub and the Python it execs sits in `hooks/thunderbird-colors.py`.
 
 The shape of the floating layout comes from three things: padding on the
 `about:3pane` grid opens the outer gutter, the pane splitters are widened to

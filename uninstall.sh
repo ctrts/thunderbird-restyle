@@ -68,6 +68,7 @@ else
 fi
 
 rm -f "$HOME/.config/omarchy/hooks/theme-set.d/thunderbird-colors"
+rm -f "$HOME/.config/omarchy/hooks/thunderbird-colors.py"
 echo "Removed Omarchy theme hook"
 
 if ((ALL)); then

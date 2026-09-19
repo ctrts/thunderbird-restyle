@@ -108,8 +108,13 @@ if command -v omarchy >/dev/null; then
     fi
   done
 
+  # omarchy-hook runs each file in hooks/<name>.d/ as `bash "$hook"`, so the
+  # Python recolour script cannot live there: bash would read its shebang as a
+  # comment and choke on the first import. Keep the script a directory up and
+  # install a bash stub that execs it.
+  install -Dm755 "$FILES/omarchy/thunderbird-colors.py" "$HOME/.config/omarchy/hooks/thunderbird-colors.py"
   omarchy hook install theme-set "$FILES/omarchy/thunderbird-colors" >/dev/null
-  "$HOME/.config/omarchy/hooks/theme-set.d/thunderbird-colors" "$(omarchy theme current 2>/dev/null || echo current)"
+  bash "$HOME/.config/omarchy/hooks/theme-set.d/thunderbird-colors" "$(omarchy theme current 2>/dev/null || echo current)"
   echo "Installed Omarchy theme hook (colours follow your Omarchy theme)"
 else
   echo "Omarchy not found: skipped the theme hook (Thunderbird uses the built-in palette)"
